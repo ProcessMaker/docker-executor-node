@@ -1,0 +1,23 @@
+{
+  "name": "pm4-docker-executor-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bootstrap.js",
+  "dependencies": {
+    "@types/node": "^11.11.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProcessMaker/pm4-docker-executor-node).git"
+  },
+  "author": "ProcessMaker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ProcessMaker/pm4-docker-executor-node)/issues"
+  },
+  "homepage": "https://github.com/ProcessMaker/pm4-docker-executor-node)#readme"
+}
