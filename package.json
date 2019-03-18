@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "bootstrap.js",
-  "dependencies": {},
-  "devDependencies": {
-    "typescript": "^2.7.2",
-    "@types/node": "^11.11.3"
+  "dependencies": {
+    "process_maker_api": "file:../pm4-sdk-node"
   },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
