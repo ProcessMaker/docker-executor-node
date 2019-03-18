@@ -1,4 +1,4 @@
-SCRIPT=$(<script.js)
+SCRIPT=`cat script.js`
 SCRIPT_WRAPPED="exports.run = (data, config, api) => {
     ${SCRIPT}
 }"

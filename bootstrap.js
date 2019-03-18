@@ -23,7 +23,6 @@ Promise.all([getConfig, getData]).then(function(values) {
     let output = {}
 
     let client = api.ApiClient.instance
-    // client.basePath = "http://bpm4.local.processmaker.com/api/1.0"
     client.basePath = process.env.API_HOST
 
     let auth = client.authentications['pm_api_bearer'];
