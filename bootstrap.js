@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
-const child_process_1 = require("child_process");
-global['data'] = {};
-global['config'] = {};
+// global['data'] = {}
+// global['config'] = {}
+// let data = {};
+// let config = {};
 function getFilePromise(file, callback) {
     return new Promise((resolve, reject) => {
         fs.readFile(file, "utf8", (err, script) => {
@@ -15,37 +16,41 @@ function getFilePromise(file, callback) {
         });
     });
 }
-function getScriptPromise(file) {
-    return new Promise((resolve, reject) => {
-        child_process_1.exec('tsc -p tsconfig_script.json', (err) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            fs.readFile(file, "utf8", (err, script) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(script);
-            });
-        });
-    });
-}
-function evalScript(script) {
-    eval(script);
-}
+// function getScriptPromise(file: string) : Promise<string> {
+//     return new Promise((resolve, reject) => {
+//         exec('tsc -p tsconfig_script.json', (err) => {
+//             if (err) {
+//                 reject(err)
+//                 return
+//             }
+//             fs.readFile(file, "utf8", (err, script) => {
+//                 if (err) {
+//                     reject(err)
+//                     return
+//                 }
+//                 resolve(script)
+//             })
+//         })
+//     })
+// }
+// function evalScript(script: string) : void|object
+// {
+//     eval(script);
+// }
 const getData = getFilePromise('data.json');
 const getConfig = getFilePromise('config.json');
-const getScript = getScriptPromise('script.ts');
+// const getScript = getScriptPromise('script.js')
+const getScript = Promise.resolve('ok');
+const script_1 = require("./script");
 Promise.all([getScript, getConfig, getData]).then(function (values) {
-    let script = values[0];
-    let config = values[1];
-    let data = values[2];
-    let result = evalScript(script);
+    // const script = values[0]
+    const config = values[1];
+    const data = values[2];
     let output = {};
+    const result = script_1.default(data, config);
+    console.log("GOT RESULT ", result);
     if (typeof result === 'object') {
-        let output = Object.assign(data, result);
+        output = Object.assign(data, result);
     }
     fs.writeFileSync('output.json', JSON.stringify(output));
 });
