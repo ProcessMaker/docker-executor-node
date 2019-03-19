@@ -1,4 +1,4 @@
-var fs = require('fs');
+var fs = require('fs')
 var script = require('./script_wrapped.js')
 var api = require('process_maker_api')
 
@@ -14,27 +14,43 @@ function getFilePromise(file) {
     })
 }
 
+function writeScriptOutput(result) {
+    return new Promise((resolve, reject) => {
+        // console.log("WRITING OUTPUT '" + JSON.stringify(result) + "'")
+        fs.writeFile('output.json', result, (err)=>{
+            err ? reject(err) : resolve('ok')
+        })
+    })
+}
+
 const getData = getFilePromise('data.json')
 const getConfig = getFilePromise('config.json')
 
 Promise.all([getConfig, getData]).then(function(values) {
     const config = values[0]
     const data   = values[1]
-    let output = {}
 
     let client = api.ApiClient.instance
     client.basePath = process.env.API_HOST
 
-    let auth = client.authentications['pm_api_bearer'];
+    let auth = client.authentications['pm_api_bearer']
     auth.accessToken = process.env.API_TOKEN
 
-    const return_value = script.run(data, config, api);
+    const return_value = script.run(data, config, api)
 
     Promise.resolve(return_value).then((result) => {
-        if (typeof result === 'object') {
-            output = Object.assign(data, result)
+        if (typeof result === 'undefined') {
+            // Nothing to output
+            return writeScriptOutput('');
+        } else if (typeof result === 'object') {
+            result = Object.assign({}, data, result)
+            return writeScriptOutput(JSON.stringify(result));
+        } else {
+            console.log(
+                "Error: Script must return a javascript object, " +
+                "a promise that resolves an object, or nothing. " +
+                "Got a " + typeof result)
+            return
         }
-        console.log("WRITING OUTPUT", output)
-        fs.writeFileSync('output.json', JSON.stringify(output))
-    });
+    })
 })
