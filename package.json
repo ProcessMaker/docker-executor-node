@@ -4,7 +4,7 @@
   "description": "",
   "main": "bootstrap.js",
   "dependencies": {
-    "process_maker_api": "ProcessMaker/pm4-sdk-node"
+    "process_maker_api": "file:./node-sdk"
   },
   "devDependencies": {},
   "scripts": {
