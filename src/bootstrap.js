@@ -16,7 +16,6 @@ function getFilePromise(file) {
 
 function writeScriptOutput(result) {
     return new Promise((resolve, reject) => {
-        // console.log("WRITING OUTPUT '" + JSON.stringify(result) + "'")
         fs.writeFile('output.json', result, (err)=>{
             err ? reject(err) : resolve('ok')
         })
