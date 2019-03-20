@@ -4,10 +4,10 @@ set -x
 BRANCH=${BRANCH:=master}
 TAG=${TAG:=dev-${BRANCH//[\/]/-}}
 
-if [[ ! -d "node-sdk" ]]; then
-    git clone --branch $BRANCH --depth 1 https://github.com/ProcessMaker/pm4-sdk-node.git node-sdk
+if [[ ! -d "pm4-sdk-node" ]]; then
+    git clone --branch $BRANCH --depth 1 https://github.com/ProcessMaker/pm4-sdk-node.git
 fi
 
 docker build -t processmaker/pm4-docker-executor-node:${TAG} .
-rm -rf node-sdk
+rm -rf pm4-sdk-node
 # Push to dockerhub here
