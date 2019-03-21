@@ -1,8 +1,7 @@
 node_modules
-script.ts
-script.js
-data.json
-config.json
-output.json
-script_wrapped.js
+src/script.js
+src/script_wrapped.js
+src/data.json
+src/config.json
+src/output.json
 test.sh
