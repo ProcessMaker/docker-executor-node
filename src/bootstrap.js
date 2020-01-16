@@ -42,7 +42,6 @@ Promise.all([getConfig, getData]).then(function(values) {
             // Nothing to output
             return writeScriptOutput('');
         } else if (typeof result === 'object') {
-            result = Object.assign({}, data, result)
             return writeScriptOutput(JSON.stringify(result));
         } else {
             console.log(
@@ -51,5 +50,7 @@ Promise.all([getConfig, getData]).then(function(values) {
                 "Got a " + typeof result)
             return
         }
+    }).catch((error) => {
+        console.error(error);
     })
 })
