@@ -13,4 +13,3 @@ pushd src
 popd
 
 docker build -t processmaker4/executor-node:${TAG} .
-rm -rf src/sdk-node
