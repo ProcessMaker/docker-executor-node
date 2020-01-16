@@ -5,19 +5,12 @@ A docker image that allows executing native ES6 in [ProcessMaker 4](https://gith
 ### Building
 
 To build from the master branch of the SDK at https://github.com/ProcessMaker/sdk-node.
-This will build the image as processmaker/docker-executor-node:dev-master
+This will build the image as processmaker4/executor-node:latest
 
-`./build.sh`
+`docker build -t processmaker4/executor-node:latest .`
 
-You can specify a branch from the SDK repo with the BRANCH env var.
-This will use that branch and build the as processmaker/docker-executor-node:feature-123
-
-`BRANCH=feature/123 ./build.sh`
-
-You can specify a tag.
-This will build the image from the master SDK branch as processmaker/docker-executor-node:test-123
-
-`TAG=test-123 ./build.sh`
+If you want to use a different branch or local build of the sdk, you can copy it to `./src/sdk-node`
+and it will be used instead of cloning from github.
 
 ### Scripts
 The javascript must return either an object, a promise that resolves to an object, or nothing.
