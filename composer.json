@@ -1,0 +1,20 @@
+{
+    "name": "processmaker/docker-executor-node",
+    "friendly_name": "Javascript Docker Executor",
+    "description": "Javascript script executor for processmaker 4",
+    "version": "1.0.0",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "ProcessMaker\\Package\\DockerExecutorNode\\": "src",
+            "ProcessMaker\\ScriptRunners\\": "src/ScriptRunners"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ProcessMaker\\Package\\DockerExecutorNode\\DockerExecutorNodeServiceProvider"
+            ]
+        }
+    }
+}
