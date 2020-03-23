@@ -4,6 +4,7 @@ namespace ProcessMaker\Package\DockerExecutorNode;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use ProcessMaker\Traits\PluginServiceProviderTrait;
+use ProcessMaker\Models\ScriptExecutor;
 
 class DockerExecutorNodeServiceProvider extends ServiceProvider
 {
@@ -17,34 +18,35 @@ class DockerExecutorNodeServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // Note: `processmaker4/executor-node` is now the base image that the instance inherits from
-        $image = env('SCRIPTS_NODE_IMAGE', 'processmaker4/executor-instance-javascript:v1.0.0');
-
         \Artisan::command('docker-executor-node:install', function () {
-            
-            // Copy the default custom dockerfile to the storage folder
-            copy(
-                __DIR__ . '/../storage/docker-build-config/Dockerfile-javascript',
-                storage_path("docker-build-config/Dockerfile-javascript")
-            );
-
-            // Restart the workers so they know about the new supported language
-            \Artisan::call('horizon:terminate');
-
-            // Build the base image that `executor-instance-node` inherits from
-            system("docker build -t processmaker4/executor-node:latest " . __DIR__ . '/..');
+            $scriptExecutor = ScriptExecutor::install([
+                'language' => 'javascript',
+                'title' => 'Node Executor',
+                'description' => 'Default Javascript/Node Executor'
+            ]);
 
             // Build the instance image. This is the same as if you were to build it from the admin UI
-            \Artisan::call('processmaker:build-script-executor javascript');
+            \Artisan::call('processmaker:build-script-executor ' . $scriptExecutor->id);
+            
+            // Restart the workers so they know about the new supported language
+            \Artisan::call('horizon:terminate');
         });
 
         $config = [
             'name' => 'JavaScript',
             'runner' => 'NodeRunner',
             'mime_type' => 'text/javascript',
-            'image' => $image,
             'options' => ['gitRepoId' => 'sdk-node'],
-            'init_dockerfile' => "FROM processmaker4/executor-node:latest\nARG SDK_DIR\n",
+            'init_dockerfile' => [
+                'ARG SDK_DIR',
+                'COPY $SDK_DIR /opt/sdk-node',
+                'WORKDIR /opt/sdk-node',
+                'RUN npm install',
+                'RUN npm run build',
+                'WORKDIR /opt/executor',
+                'RUN npm install /opt/sdk-node',
+            ],
+            'package_path' => __DIR__ . '/..',
         ];
         config(['script-runners.javascript' => $config]);
 

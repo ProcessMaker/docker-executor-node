@@ -1,7 +1,0 @@
-# Install the processmaker4 SDK
-COPY $SDK_DIR /opt/sdk-node
-WORKDIR /opt/sdk-node
-RUN npm install
-RUN npm run build
-WORKDIR /opt/executor
-RUN npm install /opt/sdk-node
