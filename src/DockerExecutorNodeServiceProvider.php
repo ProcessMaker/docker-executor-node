@@ -47,6 +47,7 @@ class DockerExecutorNodeServiceProvider extends ServiceProvider
                 'RUN npm install /opt/sdk-node',
             ],
             'package_path' => __DIR__ . '/..',
+            'package_version' => self::version,
         ];
         config(['script-runners.javascript' => $config]);
 
