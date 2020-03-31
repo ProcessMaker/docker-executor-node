@@ -1,6 +1,14 @@
+if (process.env['API_SSL_VERIFY'] === '0') {
+    process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+}
+
 var fs = require('fs')
 var script = require('./script_wrapped.js')
-var api = require('process_maker_api')
+try {
+    var api = require('process_maker_api');
+} catch(err) {
+    var api = null;
+}
 
 function getFilePromise(file) {
     return new Promise((resolve, reject) => {
@@ -29,11 +37,13 @@ Promise.all([getConfig, getData]).then(function(values) {
     const config = values[0]
     const data   = values[1]
 
-    let client = api.ApiClient.instance
-    client.basePath = process.env.API_HOST
+    if (api) {
+        let client = api.ApiClient.instance
+        client.basePath = process.env.API_HOST
 
-    let auth = client.authentications['pm_api_bearer']
-    auth.accessToken = process.env.API_TOKEN
+        let auth = client.authentications['pm_api_bearer']
+        auth.accessToken = process.env.API_TOKEN
+    }
 
     const return_value = script.run(data, config, api)
 

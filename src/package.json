@@ -4,7 +4,6 @@
   "description": "",
   "main": "bootstrap.js",
   "dependencies": {
-    "process_maker_api": "./sdk-node"
   },
   "devDependencies": {},
   "scripts": {
