@@ -38,6 +38,8 @@ class DockerExecutorNodeServiceProvider extends ServiceProvider
             \Artisan::call('horizon:terminate');
         });
 
+        $this->commands([TestDocs::class]);
+
         $config = [
             'name' => 'JavaScript',
             'runner' => 'NodeRunner',
