@@ -4,11 +4,10 @@ if (process.env['API_SSL_VERIFY'] === '0') {
 
 var fs = require('fs')
 var script = require('./script_wrapped.js')
-try {
-    var api = require('process_maker_api');
-} catch(err) {
-    var api = null;
-}
+var api = require('process_maker_api');
+
+// Stub global File API for SDK
+global.File = null; 
 
 function getFilePromise(file) {
     return new Promise((resolve, reject) => {
