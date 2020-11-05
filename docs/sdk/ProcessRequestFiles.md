@@ -67,3 +67,20 @@ return new Promise((resolve, reject) => {
     });
 });
 ```
+
+## Delete Process Request File
+
+```javascript
+return new Promise((resolve, reject) => {
+    let apiInstance = new api.RequestFilesApi();
+        
+    let fileId = 30;
+    let requestId = 4;
+    apiInstance.deleteRequestFile(fileId, requestId, (error, data, response) => {
+        resolve({
+            // 'success': error ? error : true,
+            'success': response,
+        });
+    });
+});
+```
