@@ -62,7 +62,7 @@ return new Promise((resolve, reject) => {
     };
     apiInstance.createRequestFile(requestId, opts, (error, data, response) => {
         resolve({
-            newFileId: JSON.parse(response.text).fileUploadId
+            newFileId: data.fileUploadId,
         });
     });
 });
