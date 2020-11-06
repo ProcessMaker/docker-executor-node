@@ -33,7 +33,6 @@ return new Promise((resolve, reject) => {
     let apiInstance = new api.UsersApi();
 
     let id = 1;
-    let opts = {include: 'data'};
     apiInstance.getUserById(id, (error, user) => {
         resolve({
             email: user.email,
