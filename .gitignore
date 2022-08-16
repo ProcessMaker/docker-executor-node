@@ -6,3 +6,5 @@ src/config.json
 src/output.json
 test.sh
 /sdk
+.php-cs-fixer.php
+.php-cs-fixer.cache
