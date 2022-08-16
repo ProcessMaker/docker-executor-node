@@ -17,6 +17,7 @@ class NodeRunner extends Base
         $dockerConfig['image'] = config('script-runners.javascript.image');
         $dockerConfig['command'] = '/bin/sh /opt/executor/run.sh';
         $dockerConfig['inputs']['/opt/executor/script.js'] = $code;
+
         return $dockerConfig;
     }
 }
