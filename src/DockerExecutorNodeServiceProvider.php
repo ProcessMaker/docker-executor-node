@@ -1,10 +1,11 @@
 <?php
+
 namespace ProcessMaker\Package\DockerExecutorNode;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use ProcessMaker\Traits\PluginServiceProviderTrait;
 use ProcessMaker\Models\ScriptExecutor;
+use ProcessMaker\Traits\PluginServiceProviderTrait;
 
 class DockerExecutorNodeServiceProvider extends ServiceProvider
 {
@@ -22,7 +23,7 @@ class DockerExecutorNodeServiceProvider extends ServiceProvider
             $scriptExecutor = ScriptExecutor::install([
                 'language' => 'javascript',
                 'title' => 'Node Executor',
-                'description' => 'Default Javascript/Node Executor'
+                'description' => 'Default Javascript/Node Executor',
             ]);
 
             // Build the instance image. This is the same as if you were to build it from the admin UI
@@ -33,7 +34,7 @@ class DockerExecutorNodeServiceProvider extends ServiceProvider
             $this->info("Running artisan cmd: $cmd");
             \Artisan::call($cmd);
             $this->info(\Artisan::output());
-            
+
             // Restart the workers so they know about the new supported language
             \Artisan::call('horizon:terminate');
         });
