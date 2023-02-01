@@ -40,7 +40,7 @@ Promise.all([getConfig, getData]).then(function(values) {
         let client = api.ApiClient.instance
         client.basePath = process.env.API_HOST
 
-        let auth = client.authentications['pm_api_bearer']
+        let auth = client.authentications['bearer']
         auth.accessToken = process.env.API_TOKEN
     }
 
