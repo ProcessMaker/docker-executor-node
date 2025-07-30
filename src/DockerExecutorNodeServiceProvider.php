@@ -11,7 +11,7 @@ class DockerExecutorNodeServiceProvider extends ServiceProvider
 {
     use PluginServiceProviderTrait;
 
-    const version = '1.0.2'; // Required for PluginServiceProviderTrait
+    public const version = '1.1.1'; // Required for PluginServiceProviderTrait
 
     public function register()
     {
@@ -19,7 +19,7 @@ class DockerExecutorNodeServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        \Artisan::command('docker-executor-node:install {--rebuild}', function () {
+        \Artisan::command('docker-executor-node:install {--rebuild} {--no-build : Skip building the script executor image}', function () {
             $scriptExecutor = ScriptExecutor::install([
                 'language' => 'javascript',
                 'title' => 'Node Executor',
@@ -27,16 +27,19 @@ class DockerExecutorNodeServiceProvider extends ServiceProvider
             ]);
 
             // Build the instance image. This is the same as if you were to build it from the admin UI
-            $cmd = 'processmaker:build-script-executor ' . $scriptExecutor->id;
-            if ($this->option('rebuild')) {
-                $cmd .= ' --rebuild';
+            // Skip building the image if the --no-build option is passed
+            if (!$this->option('no-build')) {
+                $cmd = 'processmaker:build-script-executor ' . $scriptExecutor->id;
+                if ($this->option('rebuild')) {
+                    $cmd .= ' --rebuild';
+                }
+                $this->info("Running artisan cmd: $cmd");
+                \Artisan::call($cmd);
+                $this->info(\Artisan::output());
             }
-            $this->info("Running artisan cmd: $cmd");
-            \Artisan::call($cmd);
-            $this->info(\Artisan::output());
 
             // Restart the workers so they know about the new supported language
-            \Artisan::call('horizon:terminate');
+            //\Artisan::call('horizon:terminate');
         });
 
         $this->commands([TestDocs::class]);
